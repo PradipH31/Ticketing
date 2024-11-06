@@ -1,5 +1,6 @@
 package com.pradiph31.ticketing.model;
 
+import com.pradiph31.ticketing.validation.EndDateAfterStartDate;
 import com.pradiph31.ticketing.validation.NotBeforeNow;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -22,6 +23,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@EndDateAfterStartDate
 @Entity
 public class Event {
   @Id
