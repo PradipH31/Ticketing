@@ -1,5 +1,6 @@
 package com.pradiph31.ticketing.model;
 
+import com.pradiph31.ticketing.validation.NotBeforeNow;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -33,6 +34,7 @@ public class Event {
   private String eventDescription;
   private String eventLocation;
   @NotNull
+  @NotBeforeNow
   private LocalDateTime eventStartDate;
   @NotNull
   private LocalDateTime eventEndDate;
