@@ -22,6 +22,7 @@ public class InMemoryEventRepository implements EventRepository {
     event1.setEventId(1);
     event1.setEventName("Coachella");
     event1.setEventDescription("West Coast Music Festival");
+    event1.setEventTags(List.of("Music", "Festival"));
     event1.setEventLocation("Indio, CA");
     event1.setEventStartDate(LocalDateTime.of(2025, 9, 1, 0, 0));
     event1.setEventEndDate(LocalDateTime.of(2025, 9, 2, 0, 0));
@@ -32,6 +33,7 @@ public class InMemoryEventRepository implements EventRepository {
     event2.setEventId(2);
     event2.setEventName("Lollapalooza");
     event2.setEventDescription("Midwest Music Festival");
+    event2.setEventTags(List.of("Music", "Festival"));
     event2.setEventLocation("Chicago, IL");
     event2.setEventStartDate(LocalDateTime.of(2025, 8, 1, 0, 0));
     event2.setEventEndDate(LocalDateTime.of(2025, 8, 2, 0, 0));
@@ -49,11 +51,15 @@ public class InMemoryEventRepository implements EventRepository {
 
   @Override
   public Event getEventById(int eventId) {
-    if (eventId < 0 || eventId >= events.size()) {
+    if (eventId < 1 || eventId > events.size()) {
       logNonexistentEventIdError(eventId);
       throw new NonexistentEventIDException(NONEXISTENT_EVENT_ID_MESSAGE);
     }
-    return events.get(eventId);
+    return events
+            .stream()
+            .filter(event -> event.getEventId() == eventId)
+            .findFirst()
+            .orElse(null);
   }
 
   @Override
