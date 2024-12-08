@@ -3,11 +3,13 @@ package com.pradiph31.ticketing.model;
 import com.pradiph31.ticketing.dto.event.EventResponseDTO;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class Event {
   private int eventId;
   private String eventName;
   private String eventDescription;
+  private List<String> eventTags;
   private String eventLocation;
   private LocalDateTime eventStartDate;
   private LocalDateTime eventEndDate;
@@ -36,6 +38,14 @@ public class Event {
 
   public void setEventDescription(String eventDescription) {
     this.eventDescription = eventDescription;
+  }
+
+  public List<String> getEventTags() {
+    return eventTags;
+  }
+
+  public void setEventTags(List<String> eventTags) {
+    this.eventTags = eventTags;
   }
 
   public String getEventLocation() {
@@ -79,7 +89,7 @@ public class Event {
   }
 
   public EventResponseDTO getEventResponseDTO() {
-    return new EventResponseDTO(this.eventId, this.eventName, this.eventDescription, this.eventLocation,
+    return new EventResponseDTO(this.eventId, this.eventName, this.eventDescription, this.eventTags, this.eventLocation,
             this.eventStartDate, this.eventEndDate, this.isAvailable);
   }
 
