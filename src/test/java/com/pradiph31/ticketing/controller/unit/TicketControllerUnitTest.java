@@ -1,14 +1,15 @@
-package com.pradiph31.ticketing.controller;
+package com.pradiph31.ticketing.controller.unit;
 
+import com.pradiph31.ticketing.controller.TicketController;
 import com.pradiph31.ticketing.dto.ticket.TicketRequestDTO;
 import com.pradiph31.ticketing.dto.ticket.TicketResponseDTO;
 import com.pradiph31.ticketing.dto.ticket.TicketUpdateDTO;
 import com.pradiph31.ticketing.model.Ticket;
 import com.pradiph31.ticketing.service.TicketService;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -23,12 +24,12 @@ import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
-class TicketControllerTest {
+class TicketControllerUnitTest {
 
-  @MockBean
+  @Mock
   private TicketService ticketService;
 
-  @Autowired
+  @InjectMocks
   private TicketController ticketController;
 
   private static final List<Ticket> tickets = new ArrayList<>();

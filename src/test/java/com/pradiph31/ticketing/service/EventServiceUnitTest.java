@@ -9,9 +9,9 @@ import com.pradiph31.ticketing.model.Ticket;
 import com.pradiph31.ticketing.repository.EventRepository;
 import com.pradiph31.ticketing.repository.TicketRepository;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -25,15 +25,15 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
-class EventServiceTest {
+class EventServiceUnitTest {
 
-  @Autowired
+  @InjectMocks
   private EventService eventService;
 
-  @MockBean
+  @Mock
   private EventRepository eventRepository;
 
-  @MockBean
+  @Mock
   private TicketRepository ticketRepository;
 
   private static final Event expectedEvent;
@@ -57,7 +57,7 @@ class EventServiceTest {
 
   @Test
   void testSaveEvent() {
-    EventRequestDTO eventDTO = new EventRequestDTO("Coachella", "West Coast Music Festival", "Indio, CA",
+    EventRequestDTO eventDTO = new EventRequestDTO("Coachella", "West Coast Music Festival", List.of("Music", "Party"), "Indio, CA",
             LocalDateTime.of(2025, 9, 1, 0, 0), LocalDateTime.of(2025, 9, 2, 0, 0));
 
     when(eventRepository.saveEvent(any(Event.class))).thenReturn(expectedEvent);
@@ -91,7 +91,7 @@ class EventServiceTest {
 
   @Test
   void testUpdateEvent() {
-    EventUpdateDTO eventDTO = new EventUpdateDTO("Coachella", "West Coast Music Festival", "Indio, CA",
+    EventUpdateDTO eventDTO = new EventUpdateDTO("Coachella", "West Coast Music Festival", List.of(), "Indio, CA",
             LocalDateTime.of(2025, 9, 1, 0, 0), LocalDateTime.of(2025, 9, 2, 0, 0), true);
 
     when(eventRepository.updateEvent(any(Event.class))).thenReturn(expectedEvent);
@@ -116,7 +116,7 @@ class EventServiceTest {
 
   @Test
   void testSaveEventInvalidData() {
-    EventRequestDTO eventDTO = new EventRequestDTO("Coachella", "West Coast Music Festival", "Indio, CA",
+    EventRequestDTO eventDTO = new EventRequestDTO("Coachella", "West Coast Music Festival", List.of(), "Indio, CA",
             LocalDateTime.of(2025, 9, 2, 0, 0), LocalDateTime.of(2025, 9, 1, 0, 0));
     try {
       eventService.saveEvent(eventDTO);
@@ -127,7 +127,7 @@ class EventServiceTest {
 
   @Test
   void testUpdateEventInvalidData() {
-    EventUpdateDTO eventDTO = new EventUpdateDTO("Coachella", "West Coast Music Festival", "Indio, CA",
+    EventUpdateDTO eventDTO = new EventUpdateDTO("Coachella", "West Coast Music Festival", List.of(), "Indio, CA",
             LocalDateTime.of(2025, 9, 2, 0, 0), LocalDateTime.of(2025, 9, 1, 0, 0), true);
     try {
       eventService.updateEvent(1, eventDTO);

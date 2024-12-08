@@ -1,5 +1,6 @@
-package com.pradiph31.ticketing.controller;
+package com.pradiph31.ticketing.controller.unit;
 
+import com.pradiph31.ticketing.controller.EventController;
 import com.pradiph31.ticketing.dto.EventWithTicketsDTO;
 import com.pradiph31.ticketing.dto.event.EventRequestDTO;
 import com.pradiph31.ticketing.dto.event.EventResponseDTO;
@@ -8,9 +9,9 @@ import com.pradiph31.ticketing.model.Event;
 import com.pradiph31.ticketing.model.Ticket;
 import com.pradiph31.ticketing.service.EventService;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -25,11 +26,12 @@ import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
-class EventControllerTest {
-  @MockBean
+class EventControllerUnitTest {
+
+  @Mock
   private EventService eventService;
 
-  @Autowired
+  @InjectMocks
   private EventController eventController;
 
   private static final List<Event> events = new ArrayList<>();
@@ -95,7 +97,7 @@ class EventControllerTest {
   @Test
   void testSaveEvent() {
     when(eventService.saveEvent(any())).thenReturn(event1.getEventResponseDTO());
-    EventRequestDTO eventDTO = new EventRequestDTO("Coachella", "West Coast Music Festival", "Indio, CA",
+    EventRequestDTO eventDTO = new EventRequestDTO("Coachella", "West Coast Music Festival", List.of(), "Indio, CA",
             LocalDateTime.of(2025, 9, 1, 0, 0), LocalDateTime.of(2025, 9, 2, 0, 0));
     ResponseEntity<EventResponseDTO> response = eventController.saveEvent(eventDTO);
     assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -105,7 +107,7 @@ class EventControllerTest {
   @Test
   void testUpdateEvent() {
     when(eventService.updateEvent(anyInt(), any())).thenReturn(event1.getEventResponseDTO());
-    EventUpdateDTO eventDTO = new EventUpdateDTO("Coachella", "West Coast Music Festival", "Indio, CA",
+    EventUpdateDTO eventDTO = new EventUpdateDTO("Coachella", "West Coast Music Festival", List.of(), "Indio, CA",
             LocalDateTime.of(2025, 9, 1, 0, 0), LocalDateTime.of(2025, 9, 2, 0, 0), true);
     ResponseEntity<EventResponseDTO> response = eventController.updateEvent(1, eventDTO);
     assertEquals(HttpStatus.OK, response.getStatusCode());

@@ -6,9 +6,9 @@ import com.pradiph31.ticketing.dto.ticket.TicketUpdateDTO;
 import com.pradiph31.ticketing.model.Ticket;
 import com.pradiph31.ticketing.repository.TicketRepository;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.List;
 
@@ -21,12 +21,12 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
-class TicketServiceTest {
+class TicketServiceUnitTest {
 
-  @Autowired
+  @InjectMocks
   private TicketService ticketService;
 
-  @MockBean
+  @Mock
   private TicketRepository ticketRepository;
 
   private static final Ticket expectedTicket;
