@@ -1,7 +1,6 @@
 package com.pradiph31.ticketing.repository;
 
 import com.pradiph31.ticketing.model.Event;
-
 import java.util.List;
 
 public interface EventRepository {

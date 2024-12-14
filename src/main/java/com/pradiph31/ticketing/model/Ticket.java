@@ -1,7 +1,6 @@
 package com.pradiph31.ticketing.model;
 
 import com.pradiph31.ticketing.dto.ticket.TicketResponseDTO;
-
 import java.time.LocalDateTime;
 
 public class Ticket {
@@ -75,6 +74,10 @@ public class Ticket {
   }
 
   public TicketResponseDTO getTicketResponseDTO() {
-    return new TicketResponseDTO(this.ticketId, this.ticketPrice, this.soldDateTime, this.isAvailable, this.eventId);
+    return new TicketResponseDTO(this.ticketId,
+                                 this.ticketPrice,
+                                 this.soldDateTime,
+                                 this.isAvailable,
+                                 this.eventId);
   }
 }

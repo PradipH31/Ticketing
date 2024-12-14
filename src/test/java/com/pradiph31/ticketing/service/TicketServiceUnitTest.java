@@ -1,17 +1,5 @@
 package com.pradiph31.ticketing.service;
 
-import com.pradiph31.ticketing.dto.ticket.TicketRequestDTO;
-import com.pradiph31.ticketing.dto.ticket.TicketResponseDTO;
-import com.pradiph31.ticketing.dto.ticket.TicketUpdateDTO;
-import com.pradiph31.ticketing.model.Ticket;
-import com.pradiph31.ticketing.repository.TicketRepository;
-import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.springframework.boot.test.context.SpringBootTest;
-
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
@@ -19,6 +7,17 @@ import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
+import com.pradiph31.ticketing.dto.ticket.TicketRequestDTO;
+import com.pradiph31.ticketing.dto.ticket.TicketResponseDTO;
+import com.pradiph31.ticketing.dto.ticket.TicketUpdateDTO;
+import com.pradiph31.ticketing.model.Ticket;
+import com.pradiph31.ticketing.repository.TicketRepository;
+import java.util.List;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 class TicketServiceUnitTest {
@@ -119,9 +118,15 @@ class TicketServiceUnitTest {
 
     verify(ticketRepository, times(1)).getAllTickets();
     assertEquals(1, actualTickets.size());
-    assertEquals(expectedTicket.getTicketId(), actualTickets.getFirst().ticketId());
-    assertEquals(expectedTicket.getTicketPrice(), actualTickets.getFirst().ticketPrice());
-    assertEquals(expectedTicket.isAvailable(), actualTickets.getFirst().isAvailable());
+    assertEquals(expectedTicket.getTicketId(),
+                 actualTickets.getFirst()
+                              .ticketId());
+    assertEquals(expectedTicket.getTicketPrice(),
+                 actualTickets.getFirst()
+                              .ticketPrice());
+    assertEquals(expectedTicket.isAvailable(),
+                 actualTickets.getFirst()
+                              .isAvailable());
   }
 
   @Test

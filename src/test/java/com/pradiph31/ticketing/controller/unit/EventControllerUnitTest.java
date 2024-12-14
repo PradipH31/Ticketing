@@ -1,5 +1,10 @@
 package com.pradiph31.ticketing.controller.unit;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.when;
+
 import com.pradiph31.ticketing.controller.EventController;
 import com.pradiph31.ticketing.dto.EventWithTicketsDTO;
 import com.pradiph31.ticketing.dto.event.EventRequestDTO;
@@ -8,22 +13,17 @@ import com.pradiph31.ticketing.dto.event.EventUpdateDTO;
 import com.pradiph31.ticketing.model.Event;
 import com.pradiph31.ticketing.model.Ticket;
 import com.pradiph31.ticketing.service.EventService;
-import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.Mockito.when;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 @SpringBootTest
 class EventControllerUnitTest {
@@ -35,8 +35,11 @@ class EventControllerUnitTest {
   private EventController eventController;
 
   private static final List<Event> events = new ArrayList<>();
-  private static final Event event1, event2;
-  private static final Ticket ticket1, ticket2, ticket3;
+  private static final Event event1;
+  private static final Event event2;
+  private static final Ticket ticket1;
+  private static final Ticket ticket2;
+  private static final Ticket ticket3;
 
   static {
     event1 = new Event();
@@ -80,10 +83,16 @@ class EventControllerUnitTest {
 
   @Test
   void testGetAllEvents() {
-    when(eventService.getAllEvents()).thenReturn(events.stream().map(Event::getEventResponseDTO).toList());
+    Mockito.when(eventService.getAllEvents())
+           .thenReturn(events.stream()
+                             .map(Event::getEventResponseDTO)
+                             .toList());
     ResponseEntity<List<EventResponseDTO>> response = eventController.getAllEvents();
     assertEquals(HttpStatus.OK, response.getStatusCode());
-    assertEquals(events.size(), Optional.ofNullable(response.getBody()).map(List::size).orElse(0));
+    assertEquals(events.size(),
+                 Optional.ofNullable(response.getBody())
+                         .map(List::size)
+                         .orElse(0));
   }
 
   @Test
@@ -97,8 +106,12 @@ class EventControllerUnitTest {
   @Test
   void testSaveEvent() {
     when(eventService.saveEvent(any())).thenReturn(event1.getEventResponseDTO());
-    EventRequestDTO eventDTO = new EventRequestDTO("Coachella", "West Coast Music Festival", List.of(), "Indio, CA",
-            LocalDateTime.of(2025, 9, 1, 0, 0), LocalDateTime.of(2025, 9, 2, 0, 0));
+    EventRequestDTO eventDTO = new EventRequestDTO("Coachella",
+                                                   "West Coast Music Festival",
+                                                   List.of(),
+                                                   "Indio, CA",
+                                                   LocalDateTime.of(2025, 9, 1, 0, 0),
+                                                   LocalDateTime.of(2025, 9, 2, 0, 0));
     ResponseEntity<EventResponseDTO> response = eventController.saveEvent(eventDTO);
     assertEquals(HttpStatus.OK, response.getStatusCode());
     assertEquals(event1.getEventResponseDTO(), response.getBody());
@@ -107,8 +120,13 @@ class EventControllerUnitTest {
   @Test
   void testUpdateEvent() {
     when(eventService.updateEvent(anyInt(), any())).thenReturn(event1.getEventResponseDTO());
-    EventUpdateDTO eventDTO = new EventUpdateDTO("Coachella", "West Coast Music Festival", List.of(), "Indio, CA",
-            LocalDateTime.of(2025, 9, 1, 0, 0), LocalDateTime.of(2025, 9, 2, 0, 0), true);
+    EventUpdateDTO eventDTO = new EventUpdateDTO("Coachella",
+                                                 "West Coast Music Festival",
+                                                 List.of(),
+                                                 "Indio, CA",
+                                                 LocalDateTime.of(2025, 9, 1, 0, 0),
+                                                 LocalDateTime.of(2025, 9, 2, 0, 0),
+                                                 true);
     ResponseEntity<EventResponseDTO> response = eventController.updateEvent(1, eventDTO);
     assertEquals(HttpStatus.OK, response.getStatusCode());
     assertEquals(event1.getEventResponseDTO(), response.getBody());
@@ -124,11 +142,20 @@ class EventControllerUnitTest {
 
   @Test
   void testGetEventWithTickets() {
-    when(eventService.getEventWithTickets(anyInt())).thenReturn(new EventWithTicketsDTO(event1.getEventResponseDTO(),
-            List.of(ticket3.getTicketResponseDTO(), ticket1.getTicketResponseDTO())));
+    Mockito.when(eventService.getEventWithTickets(anyInt()))
+           .thenReturn(new EventWithTicketsDTO(event1.getEventResponseDTO(),
+                                               List.of(ticket3.getTicketResponseDTO(),
+                                                       ticket1.getTicketResponseDTO())));
     ResponseEntity<EventWithTicketsDTO> response = eventController.getEventWithTickets(1);
     assertEquals(HttpStatus.OK, response.getStatusCode());
-    assertEquals(event1.getEventResponseDTO(), Optional.ofNullable(response.getBody()).map(EventWithTicketsDTO::event).orElse(null));
-    assertEquals(2, Optional.ofNullable(response.getBody()).map(EventWithTicketsDTO::tickets).map(List::size).orElse(0));
+    assertEquals(event1.getEventResponseDTO(),
+                 Optional.ofNullable(response.getBody())
+                         .map(EventWithTicketsDTO::event)
+                         .orElse(null));
+    assertEquals(2,
+                 Optional.ofNullable(response.getBody())
+                         .map(EventWithTicketsDTO::tickets)
+                         .map(List::size)
+                         .orElse(0));
   }
 }

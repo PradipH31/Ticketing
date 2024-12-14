@@ -1,5 +1,8 @@
 package com.pradiph31.ticketing.service;
 
+import static com.pradiph31.ticketing.util.TicketingConstants.INVALID_TICKET_DATA;
+import static com.pradiph31.ticketing.util.TicketingConstants.NONEXISTENT_TICKET_ID_MESSAGE;
+
 import com.pradiph31.ticketing.dto.ticket.TicketRequestDTO;
 import com.pradiph31.ticketing.dto.ticket.TicketResponseDTO;
 import com.pradiph31.ticketing.dto.ticket.TicketUpdateDTO;
@@ -7,15 +10,11 @@ import com.pradiph31.ticketing.exception.InvalidTicketDataException;
 import com.pradiph31.ticketing.exception.NonexistentTicketIDException;
 import com.pradiph31.ticketing.model.Ticket;
 import com.pradiph31.ticketing.repository.TicketRepository;
+import java.time.LocalDateTime;
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
-import java.util.List;
-
-import static com.pradiph31.ticketing.util.TicketingConstants.INVALID_TICKET_DATA;
-import static com.pradiph31.ticketing.util.TicketingConstants.NONEXISTENT_TICKET_ID_MESSAGE;
 
 @Service
 public class TicketService {
@@ -27,11 +26,13 @@ public class TicketService {
   }
 
   public TicketResponseDTO saveTicket(TicketRequestDTO ticketDTO) {
-    if (ticketDTO == null || ticketDTO.ticketPrice().isNaN() || ticketDTO.ticketPrice() < 0) {
+    if (ticketDTO == null || ticketDTO.ticketPrice()
+                                      .isNaN() || ticketDTO.ticketPrice() < 0) {
       logger.error("Invalid ticket info for {} at {}", ticketDTO, LocalDateTime.now());
       throw new InvalidTicketDataException(INVALID_TICKET_DATA);
     }
-    return ticketRepository.saveTicket(ticketDTO.getTicket()).getTicketResponseDTO();
+    return ticketRepository.saveTicket(ticketDTO.getTicket())
+                           .getTicketResponseDTO();
   }
 
   public TicketResponseDTO getTicketById(int ticketId) {
@@ -51,7 +52,8 @@ public class TicketService {
     ticketRepository.getTicketById(ticketId);
     Ticket ticket = ticketDTO.getTicket();
     ticket.setTicketId(ticketId);
-    return ticketRepository.updateTicket(ticket).getTicketResponseDTO();
+    return ticketRepository.updateTicket(ticket)
+                           .getTicketResponseDTO();
   }
 
   public boolean deleteTicket(int ticketId) {
@@ -62,7 +64,11 @@ public class TicketService {
   }
 
   public List<TicketResponseDTO> getAllTickets() {
-    return ticketRepository.getAllTickets().stream().filter(ticket -> !ticket.isDeleted()).map(Ticket::getTicketResponseDTO).toList();
+    return ticketRepository.getAllTickets()
+                           .stream()
+                           .filter(ticket -> !ticket.isDeleted())
+                           .map(Ticket::getTicketResponseDTO)
+                           .toList();
   }
 
 }

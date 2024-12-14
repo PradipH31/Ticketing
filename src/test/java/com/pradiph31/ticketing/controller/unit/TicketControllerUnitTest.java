@@ -1,27 +1,26 @@
 package com.pradiph31.ticketing.controller.unit;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.when;
+
 import com.pradiph31.ticketing.controller.TicketController;
 import com.pradiph31.ticketing.dto.ticket.TicketRequestDTO;
 import com.pradiph31.ticketing.dto.ticket.TicketResponseDTO;
 import com.pradiph31.ticketing.dto.ticket.TicketUpdateDTO;
 import com.pradiph31.ticketing.model.Ticket;
 import com.pradiph31.ticketing.service.TicketService;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.Mockito.when;
 
 @SpringBootTest
 class TicketControllerUnitTest {
@@ -33,7 +32,9 @@ class TicketControllerUnitTest {
   private TicketController ticketController;
 
   private static final List<Ticket> tickets = new ArrayList<>();
-  private static final Ticket ticket1, ticket2, ticket3;
+  private static final Ticket ticket1;
+  private static final Ticket ticket2;
+  private static final Ticket ticket3;
 
   static {
     ticket1 = new Ticket();
@@ -59,10 +60,15 @@ class TicketControllerUnitTest {
 
   @Test
   void testGetAllTickets() {
-    when(ticketService.getAllTickets()).thenReturn(tickets.stream().map(Ticket::getTicketResponseDTO).toList());
+    when(ticketService.getAllTickets()).thenReturn(tickets.stream()
+                                                          .map(Ticket::getTicketResponseDTO)
+                                                          .toList());
     ResponseEntity<List<TicketResponseDTO>> response = ticketController.getAllTickets();
     assertEquals(HttpStatus.OK, response.getStatusCode());
-    assertEquals(tickets.size(), Optional.ofNullable(response.getBody()).map(List::size).orElse(0));
+    assertEquals(tickets.size(),
+                 Optional.ofNullable(response.getBody())
+                         .map(List::size)
+                         .orElse(0));
   }
 
   @Test
@@ -91,12 +97,12 @@ class TicketControllerUnitTest {
     assertEquals(ticket1.getTicketResponseDTO(), response.getBody());
   }
 
-    @Test
-    void testDeleteTicket() {
-        when(ticketService.deleteTicket(1)).thenReturn(true);
-        ResponseEntity<Boolean> response = ticketController.deleteTicket(1);
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(true, response.getBody());
-    }
+  @Test
+  void testDeleteTicket() {
+    when(ticketService.deleteTicket(1)).thenReturn(true);
+    ResponseEntity<Boolean> response = ticketController.deleteTicket(1);
+    assertEquals(HttpStatus.OK, response.getStatusCode());
+    assertEquals(true, response.getBody());
+  }
 
 }

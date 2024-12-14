@@ -1,7 +1,6 @@
 package com.pradiph31.ticketing.model;
 
 import com.pradiph31.ticketing.dto.event.EventResponseDTO;
-
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -89,8 +88,14 @@ public class Event {
   }
 
   public EventResponseDTO getEventResponseDTO() {
-    return new EventResponseDTO(this.eventId, this.eventName, this.eventDescription, this.eventTags, this.eventLocation,
-            this.eventStartDate, this.eventEndDate, this.isAvailable);
+    return new EventResponseDTO(this.eventId,
+                                this.eventName,
+                                this.eventDescription,
+                                this.eventTags,
+                                this.eventLocation,
+                                this.eventStartDate,
+                                this.eventEndDate,
+                                this.isAvailable);
   }
 
 }

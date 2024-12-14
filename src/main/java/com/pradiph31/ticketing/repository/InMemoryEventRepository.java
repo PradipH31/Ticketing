@@ -1,16 +1,15 @@
 package com.pradiph31.ticketing.repository;
 
+import static com.pradiph31.ticketing.util.TicketingConstants.NONEXISTENT_EVENT_ID_MESSAGE;
+
 import com.pradiph31.ticketing.exception.NonexistentEventIDException;
 import com.pradiph31.ticketing.model.Event;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Repository;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.pradiph31.ticketing.util.TicketingConstants.NONEXISTENT_EVENT_ID_MESSAGE;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
 
 @Repository
 public class InMemoryEventRepository implements EventRepository {
@@ -55,11 +54,10 @@ public class InMemoryEventRepository implements EventRepository {
       logNonexistentEventIdError(eventId);
       throw new NonexistentEventIDException(NONEXISTENT_EVENT_ID_MESSAGE);
     }
-    return events
-            .stream()
-            .filter(event -> event.getEventId() == eventId)
-            .findFirst()
-            .orElse(null);
+    return events.stream()
+                 .filter(event -> event.getEventId() == eventId)
+                 .findFirst()
+                 .orElse(null);
   }
 
   @Override

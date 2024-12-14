@@ -1,17 +1,22 @@
 package com.pradiph31.ticketing.repository;
 
+import static com.pradiph31.ticketing.util.TicketingConstants.NONEXISTENT_TICKET_ID_MESSAGE;
+
 import com.pradiph31.ticketing.exception.NonexistentTicketIDException;
 import com.pradiph31.ticketing.model.Ticket;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-
-import static com.pradiph31.ticketing.util.TicketingConstants.NONEXISTENT_TICKET_ID_MESSAGE;
-
+/**
+ * The InMemoryTicketRepository class is a repository class that implements the TicketRepository
+ * interface. It is used to store and retrieve ticket data from an in-memory list. The class
+ * contains methods to save, retrieve, update, and delete ticket data. The class also contains
+ * methods to retrieve all tickets and tickets by event ID.
+ */
 @Repository
 public class InMemoryTicketRepository implements TicketRepository {
 
@@ -82,7 +87,9 @@ public class InMemoryTicketRepository implements TicketRepository {
 
   @Override
   public List<Ticket> getTicketsByEventId(int eventId) {
-    return tickets.stream().filter(ticket -> ticket.getEventId() == eventId).toList();
+    return tickets.stream()
+                  .filter(ticket -> ticket.getEventId() == eventId)
+                  .toList();
   }
 
   private void logNonexistentTicketIdError(int ticketId) {

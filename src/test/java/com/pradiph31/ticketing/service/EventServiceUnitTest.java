@@ -1,5 +1,13 @@
 package com.pradiph31.ticketing.service;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import com.pradiph31.ticketing.dto.EventWithTicketsDTO;
 import com.pradiph31.ticketing.dto.event.EventRequestDTO;
 import com.pradiph31.ticketing.dto.event.EventResponseDTO;
@@ -8,21 +16,12 @@ import com.pradiph31.ticketing.model.Event;
 import com.pradiph31.ticketing.model.Ticket;
 import com.pradiph31.ticketing.repository.EventRepository;
 import com.pradiph31.ticketing.repository.TicketRepository;
+import java.time.LocalDateTime;
+import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.time.LocalDateTime;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 @SpringBootTest
 class EventServiceUnitTest {
@@ -57,8 +56,12 @@ class EventServiceUnitTest {
 
   @Test
   void testSaveEvent() {
-    EventRequestDTO eventDTO = new EventRequestDTO("Coachella", "West Coast Music Festival", List.of("Music", "Party"), "Indio, CA",
-            LocalDateTime.of(2025, 9, 1, 0, 0), LocalDateTime.of(2025, 9, 2, 0, 0));
+    EventRequestDTO eventDTO = new EventRequestDTO("Coachella",
+                                                   "West Coast Music Festival",
+                                                   List.of("Music", "Party"),
+                                                   "Indio, CA",
+                                                   LocalDateTime.of(2025, 9, 1, 0, 0),
+                                                   LocalDateTime.of(2025, 9, 2, 0, 0));
 
     when(eventRepository.saveEvent(any(Event.class))).thenReturn(expectedEvent);
     EventResponseDTO actualEvent = eventService.saveEvent(eventDTO);
@@ -91,8 +94,13 @@ class EventServiceUnitTest {
 
   @Test
   void testUpdateEvent() {
-    EventUpdateDTO eventDTO = new EventUpdateDTO("Coachella", "West Coast Music Festival", List.of(), "Indio, CA",
-            LocalDateTime.of(2025, 9, 1, 0, 0), LocalDateTime.of(2025, 9, 2, 0, 0), true);
+    EventUpdateDTO eventDTO = new EventUpdateDTO("Coachella",
+                                                 "West Coast Music Festival",
+                                                 List.of(),
+                                                 "Indio, CA",
+                                                 LocalDateTime.of(2025, 9, 1, 0, 0),
+                                                 LocalDateTime.of(2025, 9, 2, 0, 0),
+                                                 true);
 
     when(eventRepository.updateEvent(any(Event.class))).thenReturn(expectedEvent);
     EventResponseDTO actualEvent = eventService.updateEvent(1, eventDTO);
@@ -116,8 +124,12 @@ class EventServiceUnitTest {
 
   @Test
   void testSaveEventInvalidData() {
-    EventRequestDTO eventDTO = new EventRequestDTO("Coachella", "West Coast Music Festival", List.of(), "Indio, CA",
-            LocalDateTime.of(2025, 9, 2, 0, 0), LocalDateTime.of(2025, 9, 1, 0, 0));
+    EventRequestDTO eventDTO = new EventRequestDTO("Coachella",
+                                                   "West Coast Music Festival",
+                                                   List.of(),
+                                                   "Indio, CA",
+                                                   LocalDateTime.of(2025, 9, 2, 0, 0),
+                                                   LocalDateTime.of(2025, 9, 1, 0, 0));
     try {
       eventService.saveEvent(eventDTO);
     } catch (Exception e) {
@@ -127,8 +139,13 @@ class EventServiceUnitTest {
 
   @Test
   void testUpdateEventInvalidData() {
-    EventUpdateDTO eventDTO = new EventUpdateDTO("Coachella", "West Coast Music Festival", List.of(), "Indio, CA",
-            LocalDateTime.of(2025, 9, 2, 0, 0), LocalDateTime.of(2025, 9, 1, 0, 0), true);
+    EventUpdateDTO eventDTO = new EventUpdateDTO("Coachella",
+                                                 "West Coast Music Festival",
+                                                 List.of(),
+                                                 "Indio, CA",
+                                                 LocalDateTime.of(2025, 9, 2, 0, 0),
+                                                 LocalDateTime.of(2025, 9, 1, 0, 0),
+                                                 true);
     try {
       eventService.updateEvent(1, eventDTO);
     } catch (Exception e) {
@@ -161,13 +178,27 @@ class EventServiceUnitTest {
 
     verify(eventRepository, times(1)).getAllEvents();
     assertEquals(1, actualEvents.size());
-    assertEquals(expectedEvent.getEventId(), actualEvents.getFirst().eventId());
-    assertEquals(expectedEvent.getEventName(), actualEvents.getFirst().eventName());
-    assertEquals(expectedEvent.getEventDescription(), actualEvents.getFirst().eventDescription());
-    assertEquals(expectedEvent.getEventLocation(), actualEvents.getFirst().eventLocation());
-    assertEquals(expectedEvent.getEventStartDate(), actualEvents.getFirst().eventStartDate());
-    assertEquals(expectedEvent.getEventEndDate(), actualEvents.getFirst().eventEndDate());
-    assertEquals(expectedEvent.isAvailable(), actualEvents.getFirst().isAvailable());
+    assertEquals(expectedEvent.getEventId(),
+                 actualEvents.getFirst()
+                             .eventId());
+    assertEquals(expectedEvent.getEventName(),
+                 actualEvents.getFirst()
+                             .eventName());
+    assertEquals(expectedEvent.getEventDescription(),
+                 actualEvents.getFirst()
+                             .eventDescription());
+    assertEquals(expectedEvent.getEventLocation(),
+                 actualEvents.getFirst()
+                             .eventLocation());
+    assertEquals(expectedEvent.getEventStartDate(),
+                 actualEvents.getFirst()
+                             .eventStartDate());
+    assertEquals(expectedEvent.getEventEndDate(),
+                 actualEvents.getFirst()
+                             .eventEndDate());
+    assertEquals(expectedEvent.isAvailable(),
+                 actualEvents.getFirst()
+                             .isAvailable());
   }
 
   @Test
@@ -177,7 +208,11 @@ class EventServiceUnitTest {
     EventWithTicketsDTO actualEventWithTickets = eventService.getEventWithTickets(1);
 
     assertEquals(expectedEvent.getEventResponseDTO(), actualEventWithTickets.event());
-    assertEquals(1, actualEventWithTickets.tickets().size());
-    assertEquals(expectedTicket.getTicketResponseDTO(), actualEventWithTickets.tickets().getFirst());
+    assertEquals(1,
+                 actualEventWithTickets.tickets()
+                                       .size());
+    assertEquals(expectedTicket.getTicketResponseDTO(),
+                 actualEventWithTickets.tickets()
+                                       .getFirst());
   }
 }
