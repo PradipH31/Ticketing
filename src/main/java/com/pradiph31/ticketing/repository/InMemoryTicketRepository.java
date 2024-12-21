@@ -4,7 +4,6 @@ import static com.pradiph31.ticketing.util.TicketingConstants.NONEXISTENT_TICKET
 
 import com.pradiph31.ticketing.exception.NonexistentTicketIDException;
 import com.pradiph31.ticketing.model.Ticket;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;
@@ -93,6 +92,6 @@ public class InMemoryTicketRepository implements TicketRepository {
   }
 
   private void logNonexistentTicketIdError(int ticketId) {
-    logger.error("Ticket ID {} does not exist at {}", ticketId, LocalDateTime.now());
+    logger.error("Ticket ID {} does not exist", ticketId);
   }
 }

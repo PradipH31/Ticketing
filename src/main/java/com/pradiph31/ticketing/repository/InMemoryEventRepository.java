@@ -11,6 +11,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
+/**
+ * The InMemoryEventRepository class is a repository class that implements the EventRepository.
+ */
 @Repository
 public class InMemoryEventRepository implements EventRepository {
   private static final List<Event> events = new ArrayList<>();
@@ -57,7 +60,7 @@ public class InMemoryEventRepository implements EventRepository {
     return events.stream()
                  .filter(event -> event.getEventId() == eventId)
                  .findFirst()
-                 .orElse(null);
+                 .orElseThrow(() -> new NonexistentEventIDException(NONEXISTENT_EVENT_ID_MESSAGE));
   }
 
   @Override
@@ -83,6 +86,6 @@ public class InMemoryEventRepository implements EventRepository {
   }
 
   private void logNonexistentEventIdError(int eventId) {
-    logger.error("Event ID {} does not exist at {}", eventId, LocalDateTime.now());
+    logger.error("Event ID {} does not exist", eventId);
   }
 }

@@ -4,6 +4,9 @@ import com.pradiph31.ticketing.dto.event.EventResponseDTO;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * Event class to define the structure of an event.
+ */
 public class Event {
   private int eventId;
   private String eventName;
@@ -79,6 +82,9 @@ public class Event {
     this.isAvailable = isAvailable;
   }
 
+  /**
+   * Method to delete an event.
+   */
   public void deleteEvent() {
     this.deleted = true;
   }
@@ -87,6 +93,11 @@ public class Event {
     return deleted;
   }
 
+  /**
+   * Get the EventResponseDTO for the event.
+   *
+   * @return the EventResponseDTO for the event.
+   */
   public EventResponseDTO getEventResponseDTO() {
     return new EventResponseDTO(this.eventId,
                                 this.eventName,

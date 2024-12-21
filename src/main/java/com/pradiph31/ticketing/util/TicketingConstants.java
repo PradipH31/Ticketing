@@ -1,5 +1,8 @@
 package com.pradiph31.ticketing.util;
 
+/**
+ * Constants used in the ticketing application.
+ */
 public class TicketingConstants {
 
   private TicketingConstants() {

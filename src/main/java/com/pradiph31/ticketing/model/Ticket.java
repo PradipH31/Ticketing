@@ -3,6 +3,9 @@ package com.pradiph31.ticketing.model;
 import com.pradiph31.ticketing.dto.ticket.TicketResponseDTO;
 import java.time.LocalDateTime;
 
+/**
+ * Ticket class to define the structure of a ticket.
+ */
 public class Ticket {
   private int ticketId;
   private Double ticketPrice;
@@ -44,6 +47,9 @@ public class Ticket {
     this.isAvailable = isAvailable;
   }
 
+  /**
+   * Method to sell a ticket.
+   */
   public void sellTicket() {
     this.isAvailable = false;
     this.soldDateTime = LocalDateTime.now();
@@ -53,6 +59,9 @@ public class Ticket {
     return deleted;
   }
 
+  /**
+   * Method to delete a ticket.
+   */
   public void deleteTicket() {
     this.deleted = true;
   }

@@ -151,7 +151,14 @@ class EventControllerUnitTest {
     assertEquals(event1.getEventResponseDTO(),
                  Optional.ofNullable(response.getBody())
                          .map(EventWithTicketsDTO::event)
-                         .orElse(null));
+                         .orElse(new EventResponseDTO(0,
+                                                      "",
+                                                      "",
+                                                      List.of(),
+                                                      "",
+                                                      LocalDateTime.now(),
+                                                      LocalDateTime.now(),
+                                                      false)));
     assertEquals(2,
                  Optional.ofNullable(response.getBody())
                          .map(EventWithTicketsDTO::tickets)
